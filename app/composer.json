@@ -11,7 +11,7 @@
         "fuel/auth": "dev-1.9/develop",
         "fuel/email": "dev-1.9/develop",
         "fuel/oil": "dev-1.9/develop",
-        "fuel/orm": "dev-1.9/develop",
+        "fuel/orm": "^1.8",
         "fuel/parser": "dev-1.9/develop",
         "fuelphp/upload": "2.0.6"
     },

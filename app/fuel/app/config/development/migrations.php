@@ -4,6 +4,7 @@ return array (
     'app' => array(    
       'default' => array(      
         0 => '001_create_users',
+        1 => '002_create_hotels',
       ),
     ),
     'module' => array(    

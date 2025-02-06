@@ -21,6 +21,12 @@ return array(
 	'_root_' => 'welcome/index',
 
 	'login' => 'users/login',
+	'register' => 'users/register',
+	'hotel' => 'hotel/index',
+	'hotel' => 'hotel/create',
+	'hotel/edit/(:any)' => 'hotel/edit/$1',
+	'hotel/delete/(:any)' => 'hotel/delete/$1',
+	'hotel/update/(:any)' => 'hotel/update/$1',
 
 	/**
 	 * -------------------------------------------------------------------------
