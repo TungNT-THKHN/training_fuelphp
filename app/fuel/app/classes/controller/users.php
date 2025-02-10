@@ -17,7 +17,7 @@ class Controller_Users extends Controller
        $result = Model_User::check_login($input);
 
         if ($result){
-            return Response::redirect('hotel', 'location', 301);
+            return Response::redirect('hotel/index', 'location', 301);
         }
         Session::set_flash('error', 'Invalid username or password!');
 
@@ -35,4 +35,30 @@ class Controller_Users extends Controller
             return Response::forge(View::forge('users/register'));
         }
     }
+    public function action_logout()
+    {
+        Session::destroy();
+        Response::redirect('login');
+    }
+
+    public function action_test()
+	{
+        // Form
+		// $form = Form::open(array('action' => 'form/submit', 'method' => 'post'));
+		// $form .= Form::label('Username', 'username');
+        // $form .= Form::submit('submit', 'Submit');
+        // $form .= Form::close();
+
+		// return Response::forge(View::forge('users/test', array('form' => $form), false));
+
+        $form = Form::open(array('action' => 'upload/process', 'method' => 'post', 'enctype' => 'multipart/form-data'));
+
+        $form .= Form::label('Choose File:', 'file');
+        $form .= Form::file('file');
+        $form .= Form::submit('submit', 'Upload');
+
+        $form .= Form::close();
+
+        return Response::forge(View::forge('users/test', array('form' => $form), false));
+	}
 }

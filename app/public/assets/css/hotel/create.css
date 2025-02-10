@@ -44,3 +44,22 @@ button.create-btn {
 button.create-btn:hover {
     background-color: #218838;
 }
+
+nav ul li form .logout-btn {
+    display: inline-block;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+nav ul li form {
+    display: inline-block;
+    margin-left: 10px;
+    background-color: #333;
+    box-shadow: none;
+}

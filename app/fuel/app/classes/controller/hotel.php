@@ -2,10 +2,18 @@
 
 use Fuel\Core\Input;
 use Fuel\Core\Response;
+use Fuel\Core\Session;
 use Fuel\Core\Validation;
 
 class Controller_Hotel extends Controller
 {
+    public function before()
+    {
+        if (!Session::get('user_id')) {
+            Response::redirect('login');
+        }
+    }
+
     public function action_index()
     {
         $hotels = Model_Hotel::find('all');
@@ -19,31 +27,31 @@ class Controller_Hotel extends Controller
     }
 
     public function action_store()
-{
-    $data = Input::post();
-    $val = Validation::forge();
+    {
+        $data = Input::post();
+        $val = Validation::forge();
 
-    $val->add('hotel_name', 'Hotel Name')
-        ->add_rule('required')
-        ->add_rule('min_length', 5)
-        ->add_rule('max_length', 20)
-        ->set_error_message('min_length', 'Please enter less than or equal to 5');
+        $val->add('hotel_name', 'Hotel Name')
+            ->add_rule('required')
+            ->add_rule('min_length', 5)
+            ->add_rule('max_length', 20)
+            ->set_error_message('min_length', 'Please enter less than or equal to 5');
 
-    if ($val->run()) {
-        $hotel_model = new Model_Hotel();
-        $hotel_model->create_hotel($data);
+        if ($val->run()) {
+            $hotel_model = new Model_Hotel();
+            $hotel_model->create_hotel($data);
 
-        return Response::redirect('hotel/index');
+            return Response::redirect('hotel/index');
+        }
+
+        $errors = $val->error();
+        foreach ($errors as $field => $error) {
+            $error_messages[$field] = $error->get_message();
+        }
+        Session::set_flash('error', $error_messages);
+
+        return Response::redirect_back();
     }
-
-    $errors = $val->error();
-    foreach ($errors as $field => $error) {
-        $error_messages[$field] = $error->get_message();
-    }
-    Session::set_flash('error', $error_messages);
-
-    return Response::redirect_back();
-}
 
 
     public function action_edit(int $id)
@@ -73,8 +81,14 @@ class Controller_Hotel extends Controller
     public function action_delete(int $id)
     {
         $entry = Model_Hotel::find($id);
-        $entry->delete();
 
-        return Response::redirect('hotel/index');
+        if ($entry) {
+            $entry->delete();
+            return Response::forge(Format::forge(['status' => 'success'])->to_json(), 200, [
+                'Content-Type' => 'application/json'
+            ]);
+        }
+
+        return $this->response(['status' => 'error', 'message' => 'Hotel not found']);
     }
 }

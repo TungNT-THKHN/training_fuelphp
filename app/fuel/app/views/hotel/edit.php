@@ -31,6 +31,11 @@
             </div>
 
             <div class="form-group">
+                <label for="image">Images</label>
+                <input type="file" name="images[]" id="image" class="form-control" multiple>
+            </div>
+
+            <div class="form-group">
                 <label for="description">Description</label>
                 <textarea name="description" id="description" class="form-control" rows="4" placeholder="Enter a brief description of the hotel" required><?= $hotel->description ?? '' ?></textarea>
             </div>

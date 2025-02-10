@@ -1,6 +1,9 @@
 <?php
 
 use Fuel\Core\DB;
+use Fuel\Core\Form;
+use Fuel\Core\Response;
+use Fuel\Core\Session;
 
 class Model_User extends \Orm\Model
 {
@@ -8,7 +11,7 @@ class Model_User extends \Orm\Model
 
 	protected static $_properties = array(
         'id',
-        'name',
+        'username',
         'email',
         'password',
         'created_at',
@@ -70,15 +73,20 @@ class Model_User extends \Orm\Model
 			'password' => $data['password'],
 		];
 
-		$sql = 'SELECT' . PHP_EOL;
-		$sql .= '	username,' . PHP_EOL;
-		$sql .= '	password' . PHP_EOL;
-		$sql .= 'FROM ' . self::table() . PHP_EOL;
-		$sql .= 'WHERE username = :username' . PHP_EOL;
-		$sql .= 'AND password = :password' . PHP_EOL;
+		$user = Model_User::find('first', [
+            'where' => [
+                ['username', '=', $params['username']],
+                ['password', '=', $params['password']],
+            ],
+        ]);
 
-		$user = DB::query($sql, DB::SELECT)->parameters($params)->execute()->current();
+		if ($user) {
+            Session::set('user_id', $user->id);
+            Session::set('username', $user->username);
 
-		return $user ? true : false;
+            return true;
+        }
+
+		return false;
 	}
 }

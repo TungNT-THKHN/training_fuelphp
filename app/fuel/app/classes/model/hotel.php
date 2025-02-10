@@ -9,6 +9,7 @@ class Model_Hotel extends \Orm\Model_Soft
 		'address',
 		'phone',
 		'email',
+		'image',
 		'description',
 		'created_at',
 		'updated_at',
@@ -58,6 +59,7 @@ class Model_Hotel extends \Orm\Model_Soft
             'email' => $data['email'],
             'description' => $data['description'],
 		];
+		$files = $this->handle_save_file($params['images']);
 
 		$column_keys = array_keys($params);
 
@@ -68,5 +70,10 @@ class Model_Hotel extends \Orm\Model_Soft
 		$sql .= ')' . PHP_EOL;
 	
 		return DB::query($sql, DB::INSERT)->parameters($params)->execute()[self::INSERT_NEW_ID_IDX];
+	}
+
+	private function handle_save_file()
+	{
+
 	}
 }

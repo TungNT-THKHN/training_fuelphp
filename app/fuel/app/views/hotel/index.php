@@ -1,6 +1,8 @@
 <?php echo View::forge('common/header', ['title' => 'Home page']); ?>
 <?php echo View::forge('common/navigation'); ?>
 <link rel="stylesheet" href="<?= Uri::create('assets/css/hotel/index.css'); ?>">
+<script src="<?= Uri::create('assets/js/jquery.min.js'); ?>"></script>
+<script src="<?= Uri::create('assets/js/hotel.js'); ?>"></script>
 
 <div class="wrapper">
     <?php echo View::forge('common/sidebar'); ?>
@@ -27,10 +29,8 @@
                         <td><?php echo htmlspecialchars($hotel->email); ?></td>
                         <td>
                             <a href="<?= Uri::create('hotel/edit/' . $hotel->id); ?>" class="btn btn-edit">Edit</a>
-                            <form action="<?= Uri::create('hotel/delete/' . $hotel->id); ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this hotel?');">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-delete">Delete</button>
-                            </form>
+                            <input type="hidden" name="id" value="<?php echo $hotel->id; ?>" />
+                            <button type="button" class="btn btn-delete">Delete</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
